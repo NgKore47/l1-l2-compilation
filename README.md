@@ -126,21 +126,62 @@ gcc-4.8 --version
 mv /usr/bin/gcc-4.8 /usr/bin/gcc
 ```
 
-## Compile O-DU High with INTEL_L1 option <sup>[ref](https://hackmd.io/DsgRSkR7RpSsdwmhdQEVNQ?view#Step-4-Compile-O-DU-High-with-INTEL_L1-option)</sup>
+## Compile O-DU High, cu_stub, ric_stub with INTEL_L1 option <sup>[ref](https://hackmd.io/DsgRSkR7RpSsdwmhdQEVNQ?view#Step-4-Compile-O-DU-High-with-INTEL_L1-option)</sup>
 
+### CASE 1
+`O-DU Low integration in radio mode to verify the RRU with full L1 functionalities`
+
+### FDD Mode
+```bash
+cd /home/four/l2/build/odu/
+make clean_odu
+make odu PHY=INTEL_L1 MACHINE=BIT64 MODE=FDD
+make cu_stub NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+make ric_stub NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+```
+### TDD Mode
 ```bash
 cd /home/four/l2/build/odu/
 make clean_odu
 make odu PHY=INTEL_L1 MACHINE=BIT64 MODE=TDD
+make cu_stub NODE=TEST_STUB MACHINE=BIT64 MODE=TDD
+make ric_stub NODE=TEST_STUB MACHINE=BIT64 MODE=TDD
 ```
 
-## Run L1app in Radio Mode
+### CASE 2
+`O-DU Low integration in timer mode for only FAPI testing`
+
+### FDD Mode
+```bash
+cd /home/four/l2/build/odu/
+make clean_odu
+make odu PHY=INTEL_L1 PHY_MODE=TIMER MACHINE=BIT64 MODE=FDD
+make cu_stub PHY_MODE=TIMER NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+make ric_stub PHY_MODE=TIMER NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+```
+### TDD Mode
+```bash
+cd /home/four/l2/build/odu/
+make clean_odu
+make odu PHY=INTEL_L1 PHY_MODE=TIMER MACHINE=BIT64 MODE=TDD
+make cu_stub PHY_MODE=TIMER NODE=TEST_STUB MACHINE=BIT64 MODE=TDD
+make ric_stub PHY_MODE=TIMER NODE=TEST_STUB MACHINE=BIT64 MODE=TDD
+```
+
+## Run L1app 
 
 ```bash
 cd /opt/cek/intel-flexran
 source set_env_var.sh -d
 cd bin/nr5g/gnb/l1/
+```
+`For radio mode`
+```bash
 ./l1.sh -xran
+```
+`For Timer mode`
+```bash
+./l1.sh -e
 ```
 
 ## Run CU STUB
@@ -151,3 +192,21 @@ source set_env_var.sh -d
 cd /home/four/l2/bin/cu_stub/
 sudo ./cu_stub
 ```
+
+## Run RIC Stub
+```bash
+cd /opt/cek/intel-flexran/
+source set_env_var.sh -d
+cd /home/four/l2/bin/ric_stub/
+sudo ./ric_stub
+```
+
+## Run ODu
+```bash
+cd /opt/cek/intel-flexran/
+source set_env_var.sh -d
+cd /home/four/l2/bin/odu/
+sudo ./odu
+```
+### Note
+If ./odu gives error or libwls.so not found, please copy the same from l2 directory.
