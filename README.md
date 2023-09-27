@@ -63,7 +63,7 @@ cp /opt/cek/dpdk-21.11/lib/eal/linux/include/rte_os.h /home/four/l2/src/dpdk_lib
 ## Compilation
 
 ```bash
-cd /home/four/l2/build/src/
+cd /home/four/l2/build/odu/
 make help
 ```
 
